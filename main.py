@@ -9,11 +9,28 @@ from typing import Dict, Any, List, Optional
 import re
 import uuid
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Dummy Bank API",
     description="API for portfolio analysis and customer data - CustomerOID based",
     version="1.0.0"
+)
+
+origins = [
+    "http://localhost",
+    "http://localhost:3001", # React uygulamanızın çalıştığı port
+    "http://localhost:3000", # Eğer başka bir port kullanıyorsanız buraya ekleyin
+    "http://localhost:8001", # Eğer başka bir port kullanıyorsanız buraya ekleyin
+    "http://localhost:8000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"], # veya spesifik olarak ["GET", "POST"]
+    allow_headers=["*"],
 )
 
 # Pydantic models for API requests
